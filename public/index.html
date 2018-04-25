@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+
+    <style>
+        section {
+            margin: 1em;
+        }
+        
+        .margin-bottom {
+            margin-bottom: 15px;
+        }
+        
+        .fade-enter,
+        .fade-leave-active {
+            opacity: 0;
+        }
+        
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity .5s;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <section id="app" class="section">
+        <form>
+            <h1 class="title is-1">
+                {{form.formName}}
+            </h1>
+
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                    <textarea name="" id="" cols="10" rows="5" v-model="form.text" class="form-control"></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Language</label>
+                <div class="control">
+                    <label>
+                <input type="radio" value="en" v-model="form.language" :checked="true">
+                en
+              </label>
+                    <br>
+                    <label>
+                <input type="radio" value="ja" v-model="form.language">
+                ja
+              </label>
+                </div>
+            </div>
+
+            <input class="button is-primary margin-bottom btn btn-default" type="submit" @click.prevent="fakeSubmit" />
+
+        </form>
+
+        <transition name="fade" mode="out-in">
+            <article class="message is-primary" v-show="showSubmitFeedback">
+                <div class="message-header">
+                    <p>Send Status:</p>
+                </div>
+                <div class="message-body">
+                    Successfully Submitted!
+                </div>
+            </article>
+        </transition>
+
+        <hr>
+
+        <h5>
+            JSON
+        </h5>
+        <pre><code>{{form}}</code></pre>
+    </section>
+
+    <script>
+        const data = {
+            form: {
+                formName: 'Local Google Home Speaker',
+                language: 'en',
+                text: 'Bing is a web search engine owned and operated by Microsoft.'
+            },
+            showSubmitFeedback: false
+        }
+        let v = new Vue({
+            el: '#app',
+            data: data,
+            methods: {
+                fakeSubmit() {
+                    this.showSubmitFeedback = true;
+                    $.ajax({
+                        type: "POST",
+                        url: '/say',
+                        data: data.form,
+                        success: res => {},
+                        dataType: 'json'
+                    });
+                }
+            }
+        });
+        console.log(v.data);
+    </script>
+
+</body>
+
+</html>
