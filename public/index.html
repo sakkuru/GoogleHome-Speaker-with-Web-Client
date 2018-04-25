@@ -28,16 +28,13 @@
             transition: opacity .5s;
         }
     </style>
-    <title>Document</title>
+    <title>Local Google Home Speaker</title>
 </head>
 
 <body>
     <section id="app" class="section">
+        <h1>Local Google Home Speaker</h1>
         <form>
-            <h1 class="title is-1">
-                {{form.formName}}
-            </h1>
-
             <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
@@ -60,7 +57,7 @@
                 </div>
             </div>
 
-            <input class="button is-primary margin-bottom btn btn-default" type="submit" @click.prevent="fakeSubmit" />
+            <input class="button is-primary margin-bottom btn btn-default" type="submit" @click.prevent="submit" />
 
         </form>
 
@@ -86,7 +83,6 @@
     <script>
         const data = {
             form: {
-                formName: 'Local Google Home Speaker',
                 language: 'en',
                 text: 'Bing is a web search engine owned and operated by Microsoft.'
             },
@@ -96,7 +92,7 @@
             el: '#app',
             data: data,
             methods: {
-                fakeSubmit() {
+                submit() {
                     this.showSubmitFeedback = true;
                     $.ajax({
                         type: "POST",
